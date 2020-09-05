@@ -4,6 +4,24 @@
 
   //
   // TODO: build the swim command fetcher here
+
+  // const ajaxSwimCommand = (event) => {
+  //   var formData = new FormData();
+  //   formData.append('file', file);
+  //   $.ajax({
+  //     type: 'GET',
+  //     data: formData,
+  //     url: '127.0.0.1:8080/',
+  //     cache: false,
+  //     contentType: false,
+  //     processData: false,
+  //     success: () => {
+  //       console.log('hello');
+  //       window.location = window.location.href;
+  //     }
+  //   });
+  // };
+
   //
 
   /////////////////////////////////////////////////////////////////////
@@ -17,12 +35,12 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: '127.0.0.1:8080/',
       cache: false,
       contentType: false,
       processData: false,
       success: () => {
-        // reload the page
+        console.log('hello');
         window.location = window.location.href;
       }
     });
