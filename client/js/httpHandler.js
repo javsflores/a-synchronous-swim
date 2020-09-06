@@ -5,25 +5,24 @@
   //
   // TODO: build the swim command fetcher here
 
-  // const ajaxSwimCommand = (event) => {
-  //   var formData = new FormData();
-  //   formData.append('file', file);
-  //   $.ajax({
-  //     type: 'GET',
-  //     data: formData,
-  //     url: '127.0.0.1:8080/',
-  //     cache: false,
-  //     contentType: false,
-  //     processData: false,
-  //     success: () => {
-  //       console.log('hello');
-  //       window.location = window.location.href;
-  //     }
-  //   });
-  // };
+  ajaxSwimCommand = () => {
+    $.ajax({
+      type: 'GET',
+      url: serverUrl + '/swimCommand',
+      success: (command) => {
+        SwimTeam.move(command);
+      },
+      complete: () => {
+        // setTimeout(ajaxSwimCommand, 100)
+      }
+    });
+  }
+
+  setTimeout(ajaxSwimCommand, 0);
+
+
 
   //
-
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
   // Note: remember to fix the URL below.
