@@ -5,10 +5,10 @@
   //
   // TODO: build the swim command fetcher here
 
-  ajaxSwimCommand = () => {
+  const ajaxSwimCommand = () => {
     $.ajax({
       type: 'GET',
-      url: serverUrl + '/swimCommand',
+      url: serverUrl,
       success: (command) => {
         SwimTeam.move(command);
       },
@@ -34,7 +34,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: '127.0.0.1:8080/',
+      url: '/background.jpg',
       cache: false,
       contentType: false,
       processData: false,

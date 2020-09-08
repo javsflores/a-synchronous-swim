@@ -14,37 +14,48 @@ module.exports.initialize = (queue) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
 
-  // console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  if (req.method === 'GET' && req.url === '/swimCommand') {
-    // console.log("MADE IT IN THE IF STATEMENT");
-    // var swimCommandSet = ['up', 'down', 'left', 'right'];
-    // var randomElem = Math.floor(Math.random() * swimCommandSet.length);
-    res.writeHead(200, headers);
-    res.end(messageQueue.dequeue());
-    next();
-  } else if (req.method === 'GET' && req.url === '/background.jpg') {
-    fs.readFile(module.exports.backgroundImageFile, (err, data) => {
-      if (err) {
-        res.writeHead(404, headers);
-      } else {
-        res.writeHead(200, headers);
-        res.write(data, 'binary');
-      }
-      res.end();
-      next();
-    })
+   // Self Start
 
-  }
+  //  console.log('Serving request type ' + req.method + ' for url ' + req.url);
 
-  if (req.method === 'OPTIONS') {
-    res.writeHead(200, headers);
-    res.end();
-    next();
-  }
+   if (req.method === 'OPTIONS') {
+     res.writeHead(200, headers);
+     res.end();
+     next();
+   }
 
-  // console.log('req: ', req, 'res: ', res);
-  // var swimCommandSet = ['up', 'down', 'left', 'right'];
-  // var randomElem = Math.floor(Math.random() * 4);
+   if (req.method === 'GET') {
+     if (req.url === '/') {
+      res.writeHead(200, headers);
+      res.end(messageQueue.dequeue());
+     } else if (req.url === '/background.jpg') {
+       fs.readFile(module.exports.backgroundImageFile, (err, data) => {
+         if (err) {
+          res.writeHead(404, headers);
+         } else {
+          res.writeHead(200, headers);
+          res.write(data, 'binary')
+         }
+         res.end();
+         next();
+       })
+     }
+   }
 
-   // invoke next() at the end of a request to help with testing!
+   if (req.method === 'POST' && req.url === '/background.jpg') {
+     var fileData = Buffer.alloc(0);
+
+     req.on('data', (chunk) => {
+       fileData = Buffer.concat([fileData, chunk]);
+     });
+
+     req.on('end', () => {
+       var file = multipart.getFile(fileData)
+      fs.writeFile(module.exports.backgroundImageFile, file.data, (err) => {
+        res.writeHead(err ? 400: 201, headers);
+        res.end();
+        next();
+       })
+     })
+   }
 };
